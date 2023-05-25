@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ShiftController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CsvUploadController;
@@ -19,4 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/upload', [CsvUploadController::class], 'store');
+// Route::post('/upload', [CsvUploadController::class, 'store']);
+
+Route::get('/shifts', [ShiftController::class, 'index']);

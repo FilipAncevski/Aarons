@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CsvUploadController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        return view('csv.csv-upload');
+        return Inertia::render('Upload/Index', [
+            //
+        ]);
     }
 
     public function store(Request $request)
@@ -47,7 +51,7 @@ class CsvUploadController extends Controller
                     // Check if paid_at value is provided
                     $paidAt = $data[8] ? $data[8] : null;
 
-                    DB::table('csv_data')->insert([
+                    DB::table('shifts')->insert([
                         'date' => $data[0],
                         'worker' => $data[1],
                         'company' => $data[2],
