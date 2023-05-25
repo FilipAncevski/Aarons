@@ -4,14 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCsvDataTable extends Migration
+class CreateShiftsTable extends Migration
 {
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('csv_data', function (Blueprint $table) {
+        Schema::create('shifts', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->string('worker');
@@ -31,6 +31,6 @@ class CreateCsvDataTable extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('csv_data');
+        Schema::dropIfExists('shifts');
     }
 };
