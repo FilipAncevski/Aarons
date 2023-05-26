@@ -21,8 +21,6 @@ class CsvUploadController extends Controller
 
     public function store(Request $request)
     {
-
-        // return 'Here';
         $file = $request->file('csv_file');
 
         if ($file->getClientOriginalExtension() !== 'csv') {
@@ -31,7 +29,6 @@ class CsvUploadController extends Controller
 
         $path = $file->store('csv_files');
 
-        // print_r('Here');die;
         $handle = fopen(storage_path("app/$path"), 'r');
 
         if ($handle) {

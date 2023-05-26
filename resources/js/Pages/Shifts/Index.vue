@@ -24,7 +24,7 @@ const handleModelCreated = () => {
 };
 
 const calculateTotalPay = (shift) => {
-    return shift.hours * shift.rate_per_hour;
+    return (shift.hours * shift.rate_per_hour).toFixed(2);
 };
 
 const editShift = (shift) => {
@@ -116,12 +116,6 @@ const filteredShifts = computed(() => {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.modal-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 5px;
 }
 </style>
 

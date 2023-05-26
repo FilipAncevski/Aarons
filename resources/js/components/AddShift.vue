@@ -44,7 +44,7 @@
         </div>
         <div class="flex flex-col">
           <label for="paidAt" class="mb-1">Paid At:</label>
-          <input type="date" id="paidAt" v-model="shift.paid_at" required class="border border-gray-300 p-2 rounded">
+          <input type="date" id="paidAt" v-model="shift.paid_at"  class="border border-gray-300 p-2 rounded">
         </div>
         <div class="flex justify-between">
           <button type="submit" class="bg-blue-900 hover:bg-blue-600 text-whitefont-semibold py-2 px-4 rounded">Submit</button>
@@ -95,16 +95,16 @@ export default {
         });
 
         if (response && response.success) {
-          successMessage.value = 'Shift created successfully.'; // Set the success message
-          errorMessage.value = ''; // Reset the error message
+          successMessage.value = 'Shift created successfully.';
+          errorMessage.value = '';
         } else {
-          successMessage.value = ''; // Reset the success message
-          errorMessage.value = 'Failed to create shift. Please try again.'; // Set the error message
+          successMessage.value = '';
+          errorMessage.value = 'Failed to create shift. Please try again.';
         }
       } catch (error) {
         console.error(error);
-        successMessage.value = ''; // Reset the success message
-        errorMessage.value = 'An error occurred. Please try again.'; // Set the error message
+        successMessage.value = '';
+        errorMessage.value = 'An error occurred. Please try again.';
       }
     };
 

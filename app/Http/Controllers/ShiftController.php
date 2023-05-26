@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
+use App\Models\Company;
 use App\Models\Shift;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -25,9 +27,7 @@ class ShiftController extends Controller
      */
     public function create()
     {
-        // dd('tuka');
-        return Inertia::render('Shifts/Create', []);
-        // return view('home');
+        return Inertia::render('Shifts/Create', []);;
     }
 
     /**
@@ -35,19 +35,23 @@ class ShiftController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        // return response()->json($request);
-        $shift = new Shift();
+        // Check if the worker exists, otherwise create a new one
+        $employee = Employee::firstOrCreate(['full_name' => $request->worker]);
 
+        // Check if the company exists, otherwise create a new one
+        $company = Company::firstOrCreate(['name' => $request->company]);
+
+        // Create a new shift
+        $shift = new Shift();
         $shift->date = $request->date;
-        $shift->worker = $request->worker;
-        $shift->company = $request->company;
+        $shift->worker = $employee->id;
+        $shift->company = $company->id;
         $shift->hours = $request->hours;
         $shift->rate_per_hour = $request->rate_per_hour;
         $shift->taxable = $request->taxable;
         $shift->status = $request->status;
         $shift->shift_type = $request->shift_type;
         $shift->paid_at = $request->paid_at;
-
         $shift->save();
 
         return redirect(route('shifts.index'));
@@ -74,17 +78,22 @@ class ShiftController extends Controller
      */
     public function update(Request $request, Shift $shift): RedirectResponse
     {
-        $data = $request->validate([
-            'date' => 'required',
-            'worker' => 'required',
-            'company' => 'required',
-            'hours' => 'required|numeric',
-            'rate_per_hour' => 'required|numeric',
-            'taxable' => 'required|boolean',
-            'status' => 'required',
-            'shift_type' => 'required',
-            'paid_at' => 'nullable|date',
-        ]);
+        $requestData = $request->all();
+
+        $worker = Employee::firstOrCreate(['full_name' => $requestData['worker']]);
+        $company = Company::firstOrCreate(['name' => $requestData['company']]);
+
+        $data = [
+            'date' => $requestData['date'],
+            'worker' => $worker->id,
+            'company' => $company->id,
+            'hours' => $requestData['hours'],
+            'rate_per_hour' => $requestData['rate_per_hour'],
+            'taxable' => $requestData['taxable'],
+            'status' => $requestData['status'],
+            'shift_type' => $requestData['shift_type'],
+            'paid_at' => $requestData['paid_at'],
+        ];
 
         $shift->update($data);
 
