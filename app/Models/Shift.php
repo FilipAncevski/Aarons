@@ -21,4 +21,14 @@ class Shift extends Model
         'shift_type',
         'paid_at',
     ];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

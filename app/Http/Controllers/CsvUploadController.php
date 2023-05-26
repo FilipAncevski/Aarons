@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Company;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -42,6 +44,9 @@ class CsvUploadController extends Controller
                         continue;
                     }
 
+                    $company = Company::firstOrCreate(['name' => $data[2]]);
+                    $employee = Employee::firstOrCreate(['full_name' => $data[1]]);
+
                     // Remove currency symbol from rate_per_hour
                     $ratePerHour = preg_replace('/[^0-9.]/', '', $data[4]);
 
@@ -53,8 +58,8 @@ class CsvUploadController extends Controller
 
                     DB::table('shifts')->insert([
                         'date' => $data[0],
-                        'worker' => $data[1],
-                        'company' => $data[2],
+                        'worker' => $employee->id,
+                        'company' => $company->id,
                         'hours' => $data[3],
                         'rate_per_hour' => $ratePerHour,
                         'taxable' => $taxable,

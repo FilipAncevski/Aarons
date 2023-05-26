@@ -31,7 +31,7 @@
                 <label for="status" class="mb-1">Status:</label>
                 <select id="status" v-model="shift.status" required class="border border-gray-300 p-2 rounded">
                     <option value="Pending">Pending</option>
-                    <option value="Completed">Completed</option>
+                    <option value="Complete">Complete</option>
                     <option value="Failed">Failed</option>
                 </select>
             </div>

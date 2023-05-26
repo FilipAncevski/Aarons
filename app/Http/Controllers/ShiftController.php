@@ -10,7 +10,7 @@ use Inertia\Response;
 
 class ShiftController extends Controller
 {
-    /**
+    /*
      * Display a listing of the resource.
      */
     public function index(): Response

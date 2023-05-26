@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\Employee;
 use App\Models\Shift;
 use Illuminate\Http\Request;
@@ -15,6 +16,16 @@ class ShiftController extends Controller
     public function index()
     {
         $shifts = Shift::paginate(15);
+        $employees = Employee::all();
+        $companies = Company::all();
+
+        foreach ($shifts as $shift) {
+            $worker = $employees->firstWhere('id', $shift->worker);
+            $shift->worker = $worker ? $worker->full_name : null;
+
+            $company = $companies->firstWhere('id', $shift->company);
+            $shift->company = $company ? $company->name : null;
+        }
 
         return response()->json($shifts);
     }
