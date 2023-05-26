@@ -41,8 +41,8 @@ Route::resource('shifts', ShiftController::class)
 
 
 Route::resource('upload', CsvUploadController::class)
-    ->only(['index', 'store'])
-    ->middleware(['auth', 'verified']);
+    ->only(['index', 'store']);
+    // ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -1,15 +1,30 @@
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-// import Employee from '@/Components/Employee.vue';
-import InputError from '@/Components/InputError.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { useForm, Head } from '@inertiajs/vue3';
 
-defineProps(['employees']);
+<script>
+export default {
+  props: {
+    employees: {
+      type: Array,
+      default: () => [],
+    },
+  },
 
+}
 </script>
 
 <template>
+    <div>
+      <ul>
+        <li v-for="employee in employees" :key="employee.id">
+          {{ employee.full_name }}
+        </li>
+      </ul>
+    </div>
+  </template>
+
+
+
+
+<!-- <template>
     <Head title="Dashboard" />
 
     <AuthenticatedLayout>
@@ -23,4 +38,9 @@ defineProps(['employees']);
             </div>
         </div>
     </AuthenticatedLayout>
-</template>
+</template> -->
+<!-- import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import Employee from '@/Components/Employee.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+import { useForm, Head } from '@inertiajs/vue3'; -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Employee;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -11,8 +12,10 @@ class EmployeeController extends Controller
 {
     public function index(): Response
     {
+        $employees = Employee::all();
+
         return Inertia::render('Employees/Index', [
-            'employees' => Employee::latest()->take(5)->get(),
+            'employees' => $employees,
         ]);
     }
 

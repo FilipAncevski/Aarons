@@ -14,8 +14,8 @@ class CreateShiftsTable extends Migration
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->string('worker');
-            $table->string('company');
+            $table->foreignId('worker')->constrained()->cascadeOnDelete();
+            $table->foreignId('company')->constrained()->cascadeOnDelete();
             $table->float('hours');
             $table->float('rate_per_hour');
             $table->boolean('taxable');
