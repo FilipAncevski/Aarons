@@ -28,8 +28,9 @@ export default {
     <div>
         <div class="max-w-2xl mx-auto">
             <p class="py-4 bg-green-200 rounded-lg px-4">Full Name: {{ employee.full_name }}</p>
-            <p class="py-4 bg-green-200 rounded-lg px-4">Average Pay Per Hour: £ {{ employee.average_pay_per_hour }}</p>
-            <p class="py-4 bg-green-200 rounded-lg px-4">Average Total Pay: £ {{ employee.average_total_pay }}</p>
+            <p v-if="employee.average_pay_per_hour" class="py-4 bg-green-200 rounded-lg px-4">Average Pay Per Hour: £ {{ employee.average_pay_per_hour }}</p>
+            <p v-if="employee.average_total_pay" class="py-4 bg-green-200 rounded-lg px-4">Average Total Pay: £ {{ employee.average_total_pay }}</p>
+            <p v-if="!employee.average_pay_per_hour && !employee.average_total_pay" class="py-4 bg-red-200 rounded-lg px-4">Employee {{ employee.name }} hasn't worked on any shifts.</p>
         </div>
 
         <div class="max-w-2xl mx-auto">
