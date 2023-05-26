@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShiftsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class CreateShiftsTable extends Migration
         Schema::create('shifts', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignId('worker')->constrained()->cascadeOnDelete();
-            $table->foreignId('company')->constrained()->cascadeOnDelete();
+            $table->foreignId('worker')->constrained('employees')->cascadeOnDelete();
+            $table->foreignId('company')->constrained('companies')->cascadeOnDelete();
             $table->float('hours');
             $table->float('rate_per_hour');
             $table->boolean('taxable');
@@ -25,6 +25,7 @@ class CreateShiftsTable extends Migration
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.

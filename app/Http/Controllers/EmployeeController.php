@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use App\Models\Shift;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -21,22 +20,42 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-        $averagePayPerHour = $employee->avg('rate_per_hour');
+        // Calculate average pay per hour
+        $averagePayPerHour = Shift::where('worker', $employee->id)
+            ->whereNotNull('worker')
+            ->avg('rate_per_hour');
 
-        $totalPay = 0;
-        $recordCount = 0;
+        // Calculate total pay
+        $totalPay = Shift::where('worker', $employee->id)
+            ->whereNotNull('worker')
+            ->sum(\DB::raw('rate_per_hour * hours'));
 
-        foreach ($employee->get() as $record) {
-            $totalPay += ($record->hours * $record->rate_per_hour);
-            $recordCount++;
-        }
+        // Get the number of shifts worked
+        $numberOfShifts = Shift::where('worker', $employee->id)
+            ->whereNotNull('worker')
+            ->count();
 
-        $averageTotalPay = ($recordCount > 0) ? ($totalPay / $recordCount) : 0;
+        // Calculate average total pay
+        $averageTotalPay = $totalPay / $numberOfShifts;
 
-        $lastFivePayments = $employee->where('status', 'Complete')->orderBy('paid_at', 'desc')->take(5)->get();
+        // Append calculated values to the employee object
+        $employee->average_pay_per_hour = number_format($averagePayPerHour, 3);
+        $employee->average_total_pay = number_format($averageTotalPay,3);
 
-        return view('employees.show', compact('employee', 'averagePayPerHour', 'averageTotalPay', 'lastFivePayments'));
+        $lastFiveCompletedPayments = Shift::where('worker', $employee->id)
+            ->where('status', 'Complete')
+            ->whereNotNull('paid_at')
+            ->orderByDesc('date')
+            ->limit(5)
+            ->get();
+
+        // Send the modified employee object to the front end
+        return Inertia::render('Employees/Show', [
+            'employee' => $employee,
+            'shifts' => $lastFiveCompletedPayments
+        ]);
     }
+
 
 
 
